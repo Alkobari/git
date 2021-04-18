@@ -1,36 +1,62 @@
-import java.util.ArrayList;
+<?php
 
-public abstract class Pizza {
-
-	String name;
-	String dough;
-	String sauce;
-	ArrayList<String> toppings = new ArrayList<String>();
-
-	void prepare() {
-		System.out.println("Preparing " + name);
-		System.out.println("Tossing dough...");
-		System.out.println("Adding sauce...");
-		System.out.println("Adding toppings...");
-		for (String topping : toppings) {
-			System.out.println("-   " + topping);
-		}
-	}
-
-	void bake() {
-		System.out.println("Baking for 25 minutes at 350...");
-	}
-
-	void cut() {
-		System.out.println("Cutting the pizza into diagonal slices...");
-	}
-
-	void box() {
-		System.out.println("Placing pizza in official PizzaStore box...");
-	}
-
-	public String getName() {
-		return name;
-	}
-
+interface PaymentInterface {
+    public function getStatus();
+    public function sendIssue();
 }
+
+class CreditCard implements PaymentInterface {
+    public function getStatus() {
+        // Mengecek status koneksi ke server.
+        echo "Checking Credit Card server .. \n";
+    }
+
+    public function sendIssue() {
+        // Mengirim request untuk pembayaran.
+        echo "Issue sent! \n";
+    }
+} 
+
+class Dana implements PaymentInterface {
+    public function getStatus() {
+        // Mengecek status koneksi ke server.
+        echo "Checking Dana server .. \n";
+    }
+
+    public function sendIssue() {
+        // Mengirim request untuk pembayaran.
+        echo "Issue sent! \n";
+    }
+}
+
+class GoPay implements PaymentInterface {
+    public function getStatus() {
+        // Mengecek status koneksi ke server.
+        echo "Checking GoPay server .. \n";
+    }
+
+    public function sendIssue() {
+        // Mengirim request untuk pembayaran.
+        echo "Issue sent! \n";
+    }
+}
+
+/**
+ * Pabrik yang akan membuat berbagai class.
+ */
+class PaymentFactory {
+    
+    // Di konstruktor kita bikin konkrit class nya.
+    public function getInstance($class) {
+        return new $class;
+    }
+}
+
+$option = 'GoPay'; 
+
+// Instansiasi Pabrik beserta parameter class yang mau diproduksi.
+$PaymentFactory = new PaymentFactory;
+$payment = $PaymentFactory->getInstance($option);
+$payment->getStatus();
+$payment->sendIssue();
+?>
